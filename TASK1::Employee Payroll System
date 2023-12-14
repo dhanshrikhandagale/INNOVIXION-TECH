@@ -1,0 +1,120 @@
+package demo;
+
+public class Employee {
+	private String name;
+    private String employeeId;
+    private double baseSalary;
+
+    public Employee(String name, String employeeId, double baseSalary) {
+        this.name = name;
+        this.employeeId = employeeId;
+        this.baseSalary = baseSalary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    } 
+
+    public double getBaseSalary() {
+        return baseSalary;
+    }
+}
+package demo;
+
+import java.util.ArrayList;
+
+public class PayrollCalculator {
+	private ArrayList<Employee> employees;
+
+    public PayrollCalculator() {
+        this.employees = new ArrayList<>();
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+
+    public void calculatePayroll() {
+        System.out.println("\nCalculating Payroll...");
+
+        for (Employee employee : employees) {
+            double grossSalary = calculateGrossSalary(employee);
+            double netSalary = calculateNetSalary(grossSalary);
+            
+            System.out.println("Employee ID: " + employee.getEmployeeId());
+            System.out.println("Employee Name: " + employee.getName());
+            System.out.println("Base Salary: $" + employee.getBaseSalary());
+            System.out.println("Gross Salary: $" + grossSalary);
+            System.out.println("Net Salary: $" + netSalary);
+            System.out.println("-------------------------------");
+        }
+    }
+
+    private double calculateNetSalary(double grossSalary) {
+        // In this basic example, net salary is 90% of the gross salary
+        return 0.9 * grossSalary;
+    }
+
+
+	private double calculateGrossSalary(Employee employee) {
+        
+        return employee.getBaseSalary();
+    }
+
+}
+
+package demo;
+
+import java.util.Scanner;
+
+public class PayrollManagementApp {
+	public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        PayrollCalculator payrollCalculator = new PayrollCalculator();
+
+        while (true) {
+            System.out.println("\nEmployee Payroll Management");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Calculate Payroll");
+            System.out.println("3. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    addEmployee(scanner, payrollCalculator);
+                    break;
+                case 2:
+                    payrollCalculator.calculatePayroll();
+                    break;
+                case 3:
+                    System.out.println("Exiting the application. Goodbye!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void addEmployee(Scanner scanner, PayrollCalculator payrollCalculator) {
+        System.out.print("Enter employee name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter employee ID: ");
+        String employeeId = scanner.nextLine();
+        System.out.print("Enter base salary: ");
+        double baseSalary = scanner.nextDouble();
+
+        Employee employee = new Employee(name, employeeId, baseSalary);
+        payrollCalculator.addEmployee(employee);
+
+        System.out.println("Employee added successfully.");
+    }
+}
+
+
